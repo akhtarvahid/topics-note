@@ -31,6 +31,7 @@ export function TopicForm({
       title: titleRef.current!.value,
       markdown: markdownRef.current!.value,
       tags: selectedTags,
+      createdAt: new Date().toISOString()
     })
 
     navigate("..")

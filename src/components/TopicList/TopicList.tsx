@@ -19,6 +19,7 @@ type SimplifiedTopic = {
   tags: Tag[];
   title: string;
   id: string;
+  createdAt: string;
 };
 
 type TopicListProps = {
@@ -120,7 +121,7 @@ export function TopicList({
       <Row xs={1} sm={2} lg={3} xl={4} className="g-3">
         {filteredTopics.map((Topic) => (
           <Col key={Topic.id}>
-            <TopicCard id={Topic.id} title={Topic.title} tags={Topic.tags} />
+            <TopicCard id={Topic.id} title={Topic.title} tags={Topic.tags} createdAt={Topic.createdAt}/>
           </Col>
         ))}
       </Row>
@@ -135,7 +136,7 @@ export function TopicList({
   );
 }
 
-function TopicCard({ id, title, tags }: SimplifiedTopic) {
+function TopicCard({ id, title, tags, createdAt }: SimplifiedTopic) {
   const color = colorGenerator();
   return (
     <Card
@@ -163,7 +164,7 @@ function TopicCard({ id, title, tags }: SimplifiedTopic) {
               ))}
             </Stack>
           )}
-          <div>Last updated @ 23:00PM</div>
+          <div>{createdAt}</div>
         </Stack>
       </Card.Body>
     </Card>
