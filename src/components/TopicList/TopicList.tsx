@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
 import styles from "./TopicList.module.css";
 import { Tag } from "../../types";
+import { colorGenerator } from "../common/helper";
 
 type SimplifiedTopic = {
   tags: Tag[];
@@ -135,13 +136,14 @@ export function TopicList({
 }
 
 function TopicCard({ id, title, tags }: SimplifiedTopic) {
+  const color = colorGenerator();
   return (
     <Card
       as={Link}
       to={`/${id}`}
       className={`h-100 text-reset text-decoration-none ${styles.card}`}
+      style={{ backgroundColor: `#${color}`}}
     >
-      Multi color cards
       <Card.Body>
         <Stack
           gap={2}
