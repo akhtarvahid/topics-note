@@ -1,16 +1,10 @@
 import { useMemo, useState } from "react";
-import {
-  Button,
-  Col,
-  Form,
-  Modal,
-  Row,
-  Stack,
-} from "react-bootstrap";
+import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
 import { Tag } from "../../types";
 import TopicCard from "../TopicCard/TopicCard";
+import EditTagsModal from "../EditTagsModal/EditTagsModal";
 
 export type SimplifiedTopic = {
   tags: Tag[];
@@ -26,7 +20,7 @@ type TopicListProps = {
   onUpdateTag: (id: string, label: string) => void;
 };
 
-type EditTagsModalProps = {
+export type EditTagsModalProps = {
   show: boolean;
   availableTags: Tag[];
   handleClose: () => void;
@@ -118,7 +112,12 @@ export function TopicList({
       <Row xs={1} sm={2} lg={3} xl={4} className="g-3">
         {filteredTopics.map((Topic) => (
           <Col key={Topic.id}>
-            <TopicCard id={Topic.id} title={Topic.title} tags={Topic.tags} createdAt={Topic.createdAt}/>
+            <TopicCard
+              id={Topic.id}
+              title={Topic.title}
+              tags={Topic.tags}
+              createdAt={Topic.createdAt}
+            />
           </Col>
         ))}
       </Row>
@@ -130,47 +129,5 @@ export function TopicList({
         availableTags={availableTags}
       />
     </>
-  );
-}
-
-
-function EditTagsModal({
-  availableTags,
-  handleClose,
-  show,
-  onDeleteTag,
-  onUpdateTag,
-}: EditTagsModalProps) {
-  return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Edit Tags</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
-          <Stack gap={2}>
-            {availableTags.map((tag) => (
-              <Row key={tag.id}>
-                <Col>
-                  <Form.Control
-                    type="text"
-                    value={tag.label}
-                    onChange={(e) => onUpdateTag(tag.id, e.target.value)}
-                  />
-                </Col>
-                <Col xs="auto">
-                  <Button
-                    onClick={() => onDeleteTag(tag.id)}
-                    variant="outline-danger"
-                  >
-                    &times;
-                  </Button>
-                </Col>
-              </Row>
-            ))}
-          </Stack>
-        </Form>
-      </Modal.Body>
-    </Modal>
   );
 }
