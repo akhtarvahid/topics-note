@@ -1,8 +1,8 @@
 import { Badge, Card, Stack } from "react-bootstrap";
 import { colorGenerator } from "../common/helper";
-import { SimplifiedTopic } from "../TopicList/TopicList";
 import { Link } from "react-router-dom";
-import styles from "./TopicList.module.css";
+import styles from "../TopicList/TopicList.module.css";
+import { SimplifiedTopic } from "../../types/topic/topic.type";
 
 export default function TopicCard({
   id,

@@ -1,5 +1,5 @@
 import { Button, Col, Form, Modal, Row, Stack } from "react-bootstrap";
-import { EditTagsModalProps } from "../TopicList/TopicList";
+import { EditTagsModalProps } from "../../types/topic/topic-tag.type";
 
 export default function EditTagsModal({
   availableTags,

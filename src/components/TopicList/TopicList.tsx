@@ -5,13 +5,7 @@ import ReactSelect from "react-select";
 import { Tag } from "../../types";
 import TopicCard from "../TopicCard/TopicCard";
 import EditTagsModal from "../EditTagsModal/EditTagsModal";
-
-export type SimplifiedTopic = {
-  tags: Tag[];
-  title: string;
-  id: string;
-  createdAt: string;
-};
+import { SimplifiedTopic } from "../../types/topic/topic.type";
 
 type TopicListProps = {
   availableTags: Tag[];
@@ -20,13 +14,6 @@ type TopicListProps = {
   onUpdateTag: (id: string, label: string) => void;
 };
 
-export type EditTagsModalProps = {
-  show: boolean;
-  availableTags: Tag[];
-  handleClose: () => void;
-  onDeleteTag: (id: string) => void;
-  onUpdateTag: (id: string, label: string) => void;
-};
 
 export function TopicList({
   availableTags,
