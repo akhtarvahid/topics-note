@@ -1,5 +1,5 @@
 import { Badge, Card, Stack } from "react-bootstrap";
-import { colorGenerator } from "../common/helper";
+import { colorGenerator, formatDate } from "../common/helper";
 import { Link } from "react-router-dom";
 import styles from "../TopicList/TopicList.module.css";
 import { SimplifiedTopic } from "../../types/topic/topic.type";
@@ -37,7 +37,7 @@ export default function TopicCard({
               ))}
             </Stack>
           )}
-          <div>{createdAt}</div>
+          <Card.Text className="createdAt">{formatDate(createdAt?.toString())}</Card.Text>
         </Stack>
       </Card.Body>
     </Card>
