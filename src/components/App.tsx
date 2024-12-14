@@ -8,12 +8,16 @@ import { TopicLayout } from "./TopicLayout"
 import { Topic } from "./Topic"
 import { EditTopic } from "./EditTopic/EditTopic"
 import { TopicForm } from "./TopicForm"
-import { useLocalStorage } from "../hooks"
+import { useGetTopicNotes, useLocalStorage, usePostTopicNote } from "../hooks"
 import { RawTopic, Tag, TopicData } from "../types"
 
 function App() {
   const [Topics, setTopics] = useLocalStorage<RawTopic[]>("TOPICS", [])
-  const [tags, setTags] = useLocalStorage<Tag[]>("TAGS", [])
+  const [tags, setTags] = useLocalStorage<Tag[]>("TAGS", []);
+
+  const { data: topics, isLoading } = useGetTopicNotes();
+  const { data, trigger: createTopicNote } = usePostTopicNote();
+  console.log('topics',Topics, topics);
 
   const TopicsWithTags = useMemo(() => {
     return Topics.map(Topic => {
@@ -21,13 +25,20 @@ function App() {
     })
   }, [Topics, tags])
 
-  function onCreateTopic({ tags, ...data }: TopicData) {
+  async function onCreateTopic({ tags, ...data }: TopicData) {
     setTopics(prevTopics => {
       return [
         ...prevTopics,
         { ...data, id: uuidV4(), tagIds: tags.map(tag => tag.id) },
       ]
     })
+    try {
+      await createTopicNote({
+         ...data,
+         tags
+      });
+    } catch (err) {}
+    
   }
 
   function onUpdateTopic(id: string, { tags, ...data }: TopicData) {
