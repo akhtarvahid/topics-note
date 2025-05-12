@@ -1,84 +1,86 @@
-import "bootstrap/dist/css/bootstrap.min.css"
-import { useMemo } from "react"
-import { Container } from "react-bootstrap"
-import { Routes, Route, Navigate } from "react-router-dom"
-import { v4 as uuidV4 } from "uuid"
-import { TopicList } from "./TopicList/TopicList"
-import { TopicLayout } from "./TopicLayout"
-import { Topic } from "./Topic"
-import { EditTopic } from "./EditTopic/EditTopic"
-import { TopicForm } from "./TopicForm"
-import { useGetTopicNotes, useLocalStorage, usePostTopicNote } from "../hooks"
-import { RawTopic, Tag, TopicData } from "../types"
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useMemo } from "react";
+import { Container } from "react-bootstrap";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { v4 as uuidV4 } from "uuid";
+import { TopicList } from "./TopicList/TopicList";
+import { TopicLayout } from "./TopicLayout";
+import { Topic } from "./Topic";
+import { EditTopic } from "./EditTopic/EditTopic";
+import { TopicForm } from "./TopicForm";
+import { useGetTopicNotes, useLocalStorage, usePostTopicNote } from "../hooks";
+import { RawTopic, Tag, TopicData } from "../types";
 
 function App() {
-  const [Topics, setTopics] = useLocalStorage<RawTopic[]>("TOPICS", [])
+  const [Topics, setTopics] = useLocalStorage<RawTopic[]>("TOPICS", []);
   const [tags, setTags] = useLocalStorage<Tag[]>("TAGS", []);
 
   const { data: topics, isLoading } = useGetTopicNotes();
-  const { data, trigger: createTopicNote } = usePostTopicNote();
-  console.log('topics',Topics, topics);
+  const { trigger: createTopicNote } = usePostTopicNote();
+  console.log("topics", Topics, topics);
 
   const TopicsWithTags = useMemo(() => {
-    return Topics.map(Topic => {
-      return { ...Topic, tags: tags.filter(tag => Topic.tagIds.includes(tag.id)) }
-    })
-  }, [Topics, tags])
+    return Topics.map((Topic) => {
+      return {
+        ...Topic,
+        tags: tags.filter((tag) => Topic.tagIds.includes(tag.id)),
+      };
+    });
+  }, [Topics, tags]);
 
   async function onCreateTopic({ tags, ...data }: TopicData) {
-    setTopics(prevTopics => {
+    setTopics((prevTopics) => {
       return [
         ...prevTopics,
-        { ...data, id: uuidV4(), tagIds: tags.map(tag => tag.id) },
-      ]
-    })
+        { ...data, id: uuidV4(), tagIds: tags.map((tag) => tag.id) },
+      ];
+    });
     try {
       await createTopicNote({
-         ...data,
-         tags
+        ...data,
+        tags,
       });
     } catch (err) {}
-    
   }
 
   function onUpdateTopic(id: string, { tags, ...data }: TopicData) {
-    setTopics(prevTopics => {
-      return prevTopics.map(Topic => {
+    setTopics((prevTopics) => {
+      return prevTopics.map((Topic) => {
         if (Topic.id === id) {
-          return { ...Topic, ...data, tagIds: tags.map(tag => tag.id) }
+          return { ...Topic, ...data, tagIds: tags.map((tag) => tag.id) };
         } else {
-          return Topic
+          return Topic;
         }
-      })
-    })
+      });
+    });
   }
 
   function onDeleteTopic(id: string) {
-    setTopics(prevTopics => {
-      return prevTopics.filter(Topic => Topic.id !== id)
-    })
+    setTopics((prevTopics) => {
+      return prevTopics.filter((Topic) => Topic.id !== id);
+    });
   }
 
   function addTag(tag: Tag) {
-    setTags(prev => [...prev, tag])
+    setTags((prev) => [...prev, tag]);
   }
 
   function updateTag(id: string, label: string) {
-    setTags(prevTags => {
-      return prevTags.map(tag => {
+    setTags((prevTags) => {
+      return prevTags.map((tag) => {
         if (tag.id === id) {
-          return { ...tag, label }
+          return { ...tag, label };
         } else {
-          return tag
+          return tag;
         }
-      })
-    })
+      });
+    });
   }
 
   function deleteTag(id: string) {
-    setTags(prevTags => {
-      return prevTags.filter(tag => tag.id !== id)
-    })
+    setTags((prevTags) => {
+      return prevTags.filter((tag) => tag.id !== id);
+    });
   }
 
   return (
@@ -120,8 +122,9 @@ function App() {
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      {isLoading && <h3>Loading...</h3>}
     </Container>
-  )
+  );
 }
 
-export default App
+export default App;
