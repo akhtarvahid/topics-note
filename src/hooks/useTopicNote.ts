@@ -1,6 +1,5 @@
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
-import { TOPIC_API } from "../utils/constant";
 
 // create new topicNote
 async function postRequest(url: RequestInfo | URL, { arg }: { arg: any }) {
@@ -15,7 +14,7 @@ async function postRequest(url: RequestInfo | URL, { arg }: { arg: any }) {
 
 export const usePostTopicNote = () => {
   const { data, trigger, isMutating, error } = useSWRMutation(
-    `${TOPIC_API}/sticky`,
+    `${process.env.TOPIC_API}/sticky`,
     postRequest
   );
 
@@ -35,5 +34,5 @@ export const getRequest = async (url: RequestInfo | URL) => {
 };
 
 export const useGetTopicNotes = () => {
-  return useSWR(`${TOPIC_API}/sticky`, getRequest);
+  return useSWR(`${process.env.TOPIC_API}/sticky`, getRequest);
 };
