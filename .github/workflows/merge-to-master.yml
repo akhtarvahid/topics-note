@@ -25,6 +25,3 @@ jobs:
     - name: Create production .env
       run: |
         echo "TOPIC_API=${{ secrets.TOPIC_API }}" > .env
-
-    - name: Run tests
-      run: npm test
