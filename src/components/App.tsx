@@ -8,8 +8,8 @@ import { TopicLayout } from "./TopicLayout";
 import { Topic } from "./Topic";
 import { EditTopic } from "./EditTopic/EditTopic";
 import { TopicForm } from "./TopicForm";
-import { useGetTopicNotes, useLocalStorage, usePostTopicNote } from "../hooks";
 import { RawTopic, Tag, TopicData } from "../types";
+import { useGetTopicNotes, useLocalStorage, usePostTopicNote } from "../hooks";
 
 function App() {
   const [Topics, setTopics] = useLocalStorage<RawTopic[]>("TOPICS", []);
