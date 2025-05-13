@@ -16,6 +16,3 @@ export const swrConfig = {
   revalidateOnFocus: false, // Disable revalidation on window focus
   revalidateOnReconnect: false, // Disable revalidation on reconnect
 };
-
-
-

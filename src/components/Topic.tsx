@@ -1,15 +1,15 @@
-import { Badge, Button, Col, Row, Stack } from "react-bootstrap"
-import { Link, useNavigate } from "react-router-dom"
-import { useTopic } from "./TopicLayout"
-import ReactMarkdown from "react-markdown"
+import { Badge, Button, Col, Row, Stack } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import { useTopic } from "../hooks/useTopic";
 
 type TopicProps = {
-  onDelete: (id: string) => void
-}
+  onDelete: (id: string) => void;
+};
 
 export function Topic({ onDelete }: TopicProps) {
-  const Topic = useTopic()
-  const navigate = useNavigate()
+  const Topic = useTopic();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -18,7 +18,7 @@ export function Topic({ onDelete }: TopicProps) {
           <h1>{Topic.title}</h1>
           {Topic.tags.length > 0 && (
             <Stack gap={1} direction="horizontal" className="flex-wrap">
-              {Topic.tags.map(tag => (
+              {Topic.tags.map((tag) => (
                 <Badge className="text-truncate" key={tag.id}>
                   {tag.label}
                 </Badge>
@@ -33,8 +33,8 @@ export function Topic({ onDelete }: TopicProps) {
             </Link>
             <Button
               onClick={() => {
-                onDelete(Topic.id)
-                navigate("/")
+                onDelete(Topic.id);
+                navigate("/");
               }}
               variant="outline-danger"
             >
@@ -48,5 +48,5 @@ export function Topic({ onDelete }: TopicProps) {
       </Row>
       <ReactMarkdown>{Topic.markdown}</ReactMarkdown>
     </>
-  )
+  );
 }

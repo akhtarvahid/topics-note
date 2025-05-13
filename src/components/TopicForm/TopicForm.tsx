@@ -1,15 +1,15 @@
-import { FormEvent, useRef, useState } from "react"
-import { Button, Col, Form, Row, Stack } from "react-bootstrap"
-import { Link, useNavigate } from "react-router-dom"
-import CreatableReactSelect from "react-select/creatable"
-import { v4 as uuidV4 } from "uuid"
-import { Tag, TopicData } from "../../types"
+import { FormEvent, useRef, useState } from "react";
+import { Button, Col, Form, Row, Stack } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import CreatableReactSelect from "react-select/creatable";
+import { v4 as uuidV4 } from "uuid";
+import { Tag, TopicData } from "../../types";
 
 type TopicFormProps = {
-  onSubmit: (data: TopicData) => void
-  onAddTag: (tag: Tag) => void
-  availableTags: Tag[]
-} & Partial<TopicData>
+  onSubmit: (data: TopicData) => void;
+  onAddTag: (tag: Tag) => void;
+  availableTags: Tag[];
+} & Partial<TopicData>;
 
 export function TopicForm({
   onSubmit,
@@ -19,22 +19,22 @@ export function TopicForm({
   markdown = "",
   tags = [],
 }: TopicFormProps) {
-  const titleRef = useRef<HTMLInputElement>(null)
-  const markdownRef = useRef<HTMLTextAreaElement>(null)
-  const [selectedTags, setSelectedTags] = useState<Tag[]>(tags)
-  const navigate = useNavigate()
+  const titleRef = useRef<HTMLInputElement>(null);
+  const markdownRef = useRef<HTMLTextAreaElement>(null);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
+  const navigate = useNavigate();
 
   function handleSubmit(e: FormEvent) {
-    e.preventDefault()
+    e.preventDefault();
 
     onSubmit({
-      title: titleRef.current!.value,
-      markdown: markdownRef.current!.value,
+      title: titleRef.current?.value || "",
+      markdown: markdownRef.current?.value || "",
       tags: selectedTags,
-      createdAt: new Date().toISOString()
-    })
+      createdAt: new Date().toISOString(),
+    });
 
-    navigate("..")
+    navigate("..");
   }
 
   return (
@@ -51,23 +51,23 @@ export function TopicForm({
             <Form.Group controlId="tags">
               <Form.Label>Tags</Form.Label>
               <CreatableReactSelect
-                onCreateOption={label => {
-                  const newTag = { id: uuidV4(), label }
-                  onAddTag(newTag)
-                  setSelectedTags(prev => [...prev, newTag])
+                onCreateOption={(label) => {
+                  const newTag = { id: uuidV4(), label };
+                  onAddTag(newTag);
+                  setSelectedTags((prev) => [...prev, newTag]);
                 }}
-                value={selectedTags.map(tag => {
-                  return { label: tag.label, value: tag.id }
+                value={selectedTags.map((tag) => {
+                  return { label: tag.label, value: tag.id };
                 })}
-                options={availableTags.map(tag => {
-                  return { label: tag.label, value: tag.id }
+                options={availableTags.map((tag) => {
+                  return { label: tag.label, value: tag.id };
                 })}
-                onChange={tags => {
+                onChange={(tags) => {
                   setSelectedTags(
-                    tags.map(tag => {
-                      return { label: tag.label, id: tag.value }
-                    })
-                  )
+                    tags.map((tag) => {
+                      return { label: tag.label, id: tag.value };
+                    }),
+                  );
                 }}
                 isMulti
               />
@@ -96,5 +96,5 @@ export function TopicForm({
         </Stack>
       </Stack>
     </Form>
-  )
+  );
 }

@@ -14,7 +14,6 @@ type TopicListProps = {
   onUpdateTag: (id: string, label: string) => void;
 };
 
-
 export function TopicList({
   availableTags,
   Topics,
@@ -32,7 +31,7 @@ export function TopicList({
           Topic.title.toLowerCase().includes(title.toLowerCase())) &&
         (selectedTags.length === 0 ||
           selectedTags.every((tag) =>
-            Topic.tags.some((TopicTag) => TopicTag.id === tag.id)
+            Topic.tags.some((TopicTag) => TopicTag.id === tag.id),
           ))
       );
     });
@@ -55,9 +54,7 @@ export function TopicList({
             >
               Edit Tags
             </Button>
-            <Button onClick={() => {}} variant="outline-secondary">
-              Dark Mode
-            </Button>
+            <Button variant="outline-secondary">Dark Mode</Button>
           </Stack>
         </Col>
       </Row>
@@ -87,7 +84,7 @@ export function TopicList({
                   setSelectedTags(
                     tags.map((tag) => {
                       return { label: tag.label, id: tag.value };
-                    })
+                    }),
                   );
                 }}
                 isMulti

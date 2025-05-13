@@ -40,7 +40,9 @@ function App() {
         ...data,
         tags,
       });
-    } catch (err) {}
+    } catch (err) {
+      console.error("error occured", err);
+    }
   }
 
   function onUpdateTopic(id: string, { tags, ...data }: TopicData) {
