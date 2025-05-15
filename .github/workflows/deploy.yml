@@ -3,37 +3,39 @@ name: Build and Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master # Replace with your master development branch
+      - master  # Your main branch
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4  # Updated from v2
         with:
           persist-credentials: false
 
       - name: Use Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4  # Updated from v2
         with:
           node-version: '20.9.0'
+          cache: 'npm'  # Caches node_modules for faster runs
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci  # Clean install (faster & more reliable than `npm install`)
 
       - name: Create production .env
         run: |
           echo "TOPIC_API=${{ secrets.TOPIC_API }}" > .env
-  
+
       - name: Build
         run: npm run build
 
-      - name: Deploy to prod url
-        # master is the branch name where new code is pushed
-        if: github.ref == 'refs/heads/master'
+      - name: Verify dist folder exists  # Debug step (optional)
+        run: ls -R dist || echo "Error: dist folder not found!"
 
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/master'  # Only deploy on master
+        uses: JamesIves/github-pages-deploy-action@v4.4.0  # Latest stable
         with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: dist # The folder the action should deploy.
+          branch: gh-pages  # Target branch
+          folder: dist      # Built output folder
