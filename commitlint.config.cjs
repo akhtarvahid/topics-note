@@ -1,10 +1,10 @@
 module.exports = {
-  // extends: ['@commitlint/config-conventional'],
+  // extends: ["@commitlint/config-conventional"], // Recommended: Use the conventional rules as a base
   extends: [],
   rules: {
-    "header-min-length": [2, "always", 10],
-    "header-case-start-capital": [2, "always"],
-    "header-end-period": [2, "always"],
+    "subject-min-length": [2, "always", 10], // Replaces "header-min-length" (standard rule)
+    "subject-case": [2, "always", "sentence-case"], // Replaces "header-case-start-capital" (built-in)
+    "subject-full-stop": [2, "always", "."], // Replaces "header-end-period" (built-in)
   },
   plugins: [
     {
