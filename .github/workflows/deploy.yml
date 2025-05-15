@@ -30,21 +30,16 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Verify build folder exists  # Debug step (optional)
-        run: ls -R build || echo "Error: build folder not found!"
-
-      - name: Add .nojekyll file
+      - name: Verify build folder exists
         run: |
-          touch build/.nojekyll
-          echo "This prevents Jekyll processing" > build/.nojekyll
-          
+          echo "Build folder contents:"
+          ls -la build/
+          [ -f build/index.html ] || { echo "Error: index.html missing in build folder!"; exit 1; }
+          echo "Build verification passed"
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
           branch: gh-pages
           folder: build
           clean: true  # Cleans existing files in gh-pages
-          clean-exclude: |
-            .nojekyll
-            CNAME
-            .gitignore
