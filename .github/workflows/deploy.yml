@@ -30,19 +30,19 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Verify dist folder exists  # Debug step (optional)
-        run: ls -R dist || echo "Error: dist folder not found!"
+      - name: Verify build folder exists  # Debug step (optional)
+        run: ls -R build || echo "Error: build folder not found!"
 
       - name: Add .nojekyll file
         run: |
-          touch dist/.nojekyll
-          echo "This prevents Jekyll processing" > dist/.nojekyll
+          touch build/.nojekyll
+          echo "This prevents Jekyll processing" > build/.nojekyll
           
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
           branch: gh-pages
-          folder: dist
+          folder: build
           clean: true  # Cleans existing files in gh-pages
           clean-exclude: |
             .nojekyll
