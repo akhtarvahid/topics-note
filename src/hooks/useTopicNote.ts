@@ -14,7 +14,7 @@ async function postRequest<T>(url: RequestInfo | URL, { arg }: { arg: T }) {
 
 export const usePostTopicNote = () => {
   const { data, trigger, isMutating, error } = useSWRMutation(
-    `${process.env.TOPIC_API}/sticky`,
+    `${process.env.REACT_APP_API_URL}/sticky`,
     postRequest,
   );
 
@@ -34,5 +34,5 @@ export const getRequest = async (url: RequestInfo | URL) => {
 };
 
 export const useGetTopicNotes = () => {
-  return useSWR(`${process.env.TOPIC_API}/sticky`, getRequest);
+  return useSWR(`${process.env.REACT_APP_API_URL}/sticky`, getRequest);
 };
