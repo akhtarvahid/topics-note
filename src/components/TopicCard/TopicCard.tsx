@@ -3,6 +3,7 @@ import { colorGenerator, formatDate } from "../common/helper";
 import { Link } from "react-router-dom";
 import styles from "../TopicList/TopicList.module.css";
 import { SimplifiedTopic } from "../../types/topic/topic.type";
+import { useMemo } from "react";
 
 export default function TopicCard({
   id,
@@ -10,7 +11,7 @@ export default function TopicCard({
   tags,
   createdAt,
 }: SimplifiedTopic) {
-  const color = colorGenerator();
+  const color = useMemo(() => colorGenerator(), []);
   return (
     <Card
       as={Link}
@@ -23,7 +24,7 @@ export default function TopicCard({
           gap={2}
           className="align-items-center justify-content-center h-100"
         >
-          <span className="fs-5">{title}</span>
+          <span className="fs-3">{title}</span>
           {tags.length > 0 && (
             <Stack
               gap={1}
@@ -37,7 +38,9 @@ export default function TopicCard({
               ))}
             </Stack>
           )}
-          <Card.Text className="createdAt">{formatDate(createdAt?.toString())}</Card.Text>
+          <Card.Text className="createdAt">
+            {formatDate(createdAt?.toString())}
+          </Card.Text>
         </Stack>
       </Card.Body>
     </Card>

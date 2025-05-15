@@ -1,9 +1,4 @@
-import {
-  Navigate,
-  Outlet,
-  useOutletContext,
-  useParams,
-} from "react-router-dom";
+import { Navigate, Outlet, useParams } from "react-router-dom";
 import { TopicProps } from "../types";
 
 type TopicLayoutProps = {
@@ -17,8 +12,4 @@ export function TopicLayout({ Topics }: TopicLayoutProps) {
   if (Topic == null) return <Navigate to="/" replace />;
 
   return <Outlet context={Topic} />;
-}
-
-export function useTopic() {
-  return useOutletContext<TopicProps>();
 }

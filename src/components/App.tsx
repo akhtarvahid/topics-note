@@ -40,7 +40,9 @@ function App() {
         ...data,
         tags,
       });
-    } catch (err) {}
+    } catch (err) {
+      console.error("error occured", err);
+    }
   }
 
   function onUpdateTopic(id: string, { tags, ...data }: TopicData) {
@@ -122,7 +124,7 @@ function App() {
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-      {isLoading && <h3>Loading...</h3>}
+      {isLoading && <h3>Loading.....</h3>}
     </Container>
   );
 }

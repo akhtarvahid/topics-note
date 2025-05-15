@@ -1,6 +1,6 @@
+import { useTopic } from "../../hooks/useTopic";
 import { Tag, TopicData } from "../../types";
 import { TopicForm } from "../TopicForm/TopicForm";
-import { useTopic } from "../TopicLayout";
 
 type EditTopicProps = {
   onSubmit: (id: string, data: TopicData) => void;
