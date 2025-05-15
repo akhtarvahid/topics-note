@@ -33,9 +33,18 @@ jobs:
       - name: Verify dist folder exists  # Debug step (optional)
         run: ls -R dist || echo "Error: dist folder not found!"
 
+      - name: Add .nojekyll file
+        run: |
+          touch dist/.nojekyll
+          echo "This prevents Jekyll processing" > dist/.nojekyll
+          
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/master'  # Only deploy on master
-        uses: JamesIves/github-pages-deploy-action@v4.4.0  # Latest stable
+        uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
-          branch: gh-pages  # Target branch
-          folder: dist      # Built output folder
+          branch: gh-pages
+          folder: dist
+          clean: true  # Cleans existing files in gh-pages
+          clean-exclude: |
+            .nojekyll
+            CNAME
+            .gitignore
