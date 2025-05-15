@@ -1,0 +1,39 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master # Replace with your master development branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.9.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create production .env
+        run: |
+          echo "TOPIC_API=${{ secrets.TOPIC_API }}" > .env
+  
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to prod url
+        # master is the branch name where new code is pushed
+        if: github.ref == 'refs/heads/master'
+
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: dist # The folder the action should deploy.
