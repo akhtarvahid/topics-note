@@ -124,7 +124,7 @@ function App() {
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-      {isLoading && <h3>Loading.....</h3>}
+      {isLoading && <h3>Loading...</h3>}
     </Container>
   );
 }
