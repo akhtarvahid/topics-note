@@ -1,9 +1,8 @@
 import { Badge, Card, Stack } from "react-bootstrap";
-import { colorGenerator, formatDate } from "../common/helper";
+import { formatDate } from "../common/helper";
 import { Link } from "react-router-dom";
 import styles from "../TopicList/TopicList.module.css";
 import { SimplifiedTopic } from "../../types/topic/topic.type";
-import { useMemo } from "react";
 
 export default function TopicCard({
   id,
@@ -11,13 +10,14 @@ export default function TopicCard({
   tags,
   createdAt,
 }: SimplifiedTopic) {
-  const color = useMemo(() => colorGenerator(), []);
   return (
     <Card
       as={Link}
       to={`/${id}`}
       className={`h-100 text-reset text-decoration-none ${styles.card}`}
-      style={{ backgroundColor: `#${color}` }}
+      style={{
+        backgroundColor: `#f7ebb6`,
+      }}
     >
       <Card.Body>
         <Stack
