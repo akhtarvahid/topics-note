@@ -6,6 +6,13 @@ import { Tag } from "../../types";
 import TopicCard from "../TopicCard/TopicCard";
 import EditTagsModal from "../EditTagsModal/EditTagsModal";
 import { SimplifiedTopic } from "../../types/topic/topic.type";
+import { sortingData } from "../common/constant";
+import {
+  filterTopics,
+  sortByNewestFirst,
+  sortByOldestFirst,
+  sortByTitle,
+} from "../common/helper";
 
 type TopicListProps = {
   availableTags: Tag[];
@@ -23,19 +30,28 @@ export function TopicList({
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const [title, setTitle] = useState("");
   const [editTagsModalIsOpen, setEditTagsModalIsOpen] = useState(false);
+  const [sortBy, setSortBy] = useState<string>("");
 
   const filteredTopics = useMemo(() => {
-    return Topics.filter((Topic) => {
-      return (
-        (title === "" ||
-          Topic.title.toLowerCase().includes(title.toLowerCase())) &&
-        (selectedTags.length === 0 ||
-          selectedTags.every((tag) =>
-            Topic.tags.some((TopicTag) => TopicTag.id === tag.id),
-          ))
-      );
-    });
-  }, [title, selectedTags, Topics]);
+    const result = Topics.filter((topic) =>
+      filterTopics(topic, title, selectedTags),
+    );
+
+    switch (sortBy) {
+      case "Title":
+        result.sort(sortByTitle);
+        break;
+      case "Newest First":
+        result.sort(sortByNewestFirst);
+        break;
+      case "Oldest First":
+        result.sort(sortByOldestFirst);
+        break;
+      // No default needed if sortBy is properly typed
+    }
+
+    return result;
+  }, [title, selectedTags, Topics, sortBy]);
 
   return (
     <>
@@ -62,7 +78,7 @@ export function TopicList({
         <Row className="mb-4">
           <Col>
             <Form.Group controlId="title">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>Filter by title:</Form.Label>
               <Form.Control
                 type="text"
                 value={title}
@@ -72,7 +88,7 @@ export function TopicList({
           </Col>
           <Col>
             <Form.Group controlId="tags">
-              <Form.Label>Tags</Form.Label>
+              <Form.Label>Filter by tags:</Form.Label>
               <ReactSelect
                 value={selectedTags.map((tag) => {
                   return { label: tag.label, value: tag.id };
@@ -88,6 +104,19 @@ export function TopicList({
                   );
                 }}
                 isMulti
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group controlId="sortBy">
+              <Form.Label>Sort by:</Form.Label>
+              <ReactSelect
+                value={{ label: sortBy, value: sortBy?.toLowerCase() }}
+                options={sortingData}
+                onChange={(tag) => {
+                  console.log(tag);
+                  if (tag) setSortBy(tag.label);
+                }}
               />
             </Form.Group>
           </Col>
